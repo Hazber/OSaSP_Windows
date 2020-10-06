@@ -27,9 +27,15 @@
     <ClInclude Include="Test1.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Figures.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test1.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

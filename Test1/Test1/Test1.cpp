@@ -2,7 +2,10 @@
 //
 
 #include "framework.h"
+#include "Figures.h"
 #include "Test1.h"
+//#include "stdafx.h"
+#include <unordered_map>
 
 #define MAX_LOADSTRING 100
 
@@ -29,12 +32,17 @@ HBRUSH hBrush;
 LOGFONT lf;
 HFONT hFont;
 HPEN hPen;
+HWND hwnd;
+HMENU menu;
 
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+VOID InitToolsMenuItemsAssocs();
+
+//std::unique_ptr<paint::AppContext> context;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -193,35 +201,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             SetTextColor(hdc, RGB(255, 0, 255));
             TextOutW(hdc, 150, 270, L"Hello World", lstrlen(L"Hello World"));
 
-            //ломаная
-            MoveToEx(hdc, 500, 250, NULL);
-            LineTo(hdc, 500, 300);
-            MoveToEx(hdc, 450, 250, NULL);
-            LineTo(hdc, 500, 300);
-            MoveToEx(hdc, 450, 250, NULL);
-            LineTo(hdc, 400, 250);
-            MoveToEx(hdc, 400, 250, NULL);
-            LineTo(hdc, 350, 300);
-            
             //линия
-            MoveToEx(hdc, 300, 250, NULL);
-            LineTo(hdc, 300, 300);
+              DrawLine(hdc, 300, 250, 300, 300);
 
+            DrawEraseHand(hdc, 500, 250, 350, 300);
+           
             //эллипс
             hBrush = CreateSolidBrush(RGB(10, 200, 100));
             SelectObject(hdc, hBrush);
             Ellipse(hdc, 900, 250, 1000, 300);
 
-            //прямоугольник
-            hBrush = CreateSolidBrush(RGB(250, 200, 100));
-            SelectObject(hdc, hBrush);
-            hPen = CreatePen(2, 2, RGB(0, 0, 255));
-            SelectObject(hdc, hPen);
-            r.top = 250;
-            r.left = 700;
-            r.right = 850;
-            r.bottom = 300;
-            FillRect(hdc, &r, HBRUSH(CreateSolidBrush(RGB(255, 0, 0))));
+            DrawRectangle(hdc,r,hPen,hBrush, 250, 700, 850, 300);
     
             //многоугольник
             POINT poly[6];
@@ -298,4 +288,22 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+
+VOID InitToolsMenuItemsAssocs()
+{
+    menu = GetMenu(hwnd);
+
+   /* std::unordered_map<DWORD, paint::Tool> assocs;
+    assocs.insert(std::pair<DWORD, paint::Tool>(ID_TOOLBAR_PEN, paint::Tool::Pen));
+    assocs.insert(std::pair<DWORD, paint::Tool>(ID_TOOLBAR_LINE, paint::Tool::Line));
+    assocs.insert(std::pair<DWORD, paint::Tool>(ID_TOOLBAR_RECTANGLE, paint::Tool::Rectangle));
+    assocs.insert(std::pair<DWORD, paint::Tool>(ID_TOOLBAR_ELLIPSE, paint::Tool::Ellipse));
+    assocs.insert(std::pair<DWORD, paint::Tool>(ID_TOOLBAR_POLYLINE, paint::Tool::Polyline));
+    assocs.insert(std::pair<DWORD, paint::Tool>(ID_TOOLBAR_TEXT, paint::Tool::Text));
+
+    auto toolbar = context->GetToolbar();
+    toolbar->LoadMenuItemLinks(assocs);
+    toolbar->SelectTool(paint::Tool::Pen);*/
 }
